@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/AurelioAvila
+    about: Do not disclose vulnerabilities publicly. Check the repository Security tab first.
