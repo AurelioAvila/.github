@@ -2,6 +2,13 @@
 
 Security reports are taken seriously.
 
+## Download verification
+
+See the [version-specific code-signing inventory](https://github.com/AurelioAvila/.github/blob/master/CODE_SIGNING.md)
+for verified Windows releases, publisher details and verification instructions.
+Code signing establishes identity and integrity; it does not replace security
+testing or guarantee the absence of vulnerabilities.
+
 ## Reporting a vulnerability
 
 Please do not disclose a suspected vulnerability in a public issue, discussion, pull request, or social post.
