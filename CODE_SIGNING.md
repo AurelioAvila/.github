@@ -34,8 +34,10 @@ Each of these four downloads passed Windows Authenticode verification and
 2021 CA. The timestamps chain to DigiCert; the timestamp responder is
 **DigiCert SHA256 RSA4096 Timestamp Responder 2026 1**.
 The downloaded files also match the local published-artifact evidence.
-This check covers the installers and aliases; it does not claim a separate
-cryptographic verification of their Tauri updater `.sig` files.
+The EXE and MSI updater `.sig` files also passed cryptographic minisign
+verification against the current PC Tweaker repository public key on 2026-09-08
+(configuration blob `4f92e5cee70a278dd781ca7ed2c9050317197ead`). This is a
+separate check from Windows publisher and timestamp verification.
 
 ### Redaxa 0.3.3 and Redexa Social 1.9.3 evidence (2026-09-08)
 
@@ -51,6 +53,9 @@ verification with no warnings or errors. They identify Aurelio Avila with the
 same Certum code-signing certificate listed above and trusted timestamps from
 **Certum Timestamp 2026**. The ZIP hash identifies the downloaded archive;
 the Authenticode result applies to those three contained executables.
+Redaxa's EXE and MSI updater `.sig` files also passed minisign verification
+against its current repository public key on 2026-09-08 (configuration blob
+`68a7368ba44d40af951f10552d656b178da392ba`). No signing session was used.
 
 ### Check your file
 
