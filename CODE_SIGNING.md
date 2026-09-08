@@ -10,8 +10,8 @@ historical release or development build.
 | --- | --- | --- |
 | PC Tweaker | [1.10.3](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.10.3) | Valid signatures and trusted timestamps on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
 | Redaxa | [0.3.3](https://github.com/AurelioAvila/redaxa/releases/tag/v0.3.3) | Valid signatures and timestamps on EXE and MSI installers. |
-| Redexa Social | [1.9.3](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.9.3) | Valid signatures and timestamps on the application, updater and compatibility launcher inside the ZIP. |
-| PC Tweaker Uninstaller | [0.8.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.8.2) | EXE and MSI installers, including the EXE alias, are not Authenticode-signed. |
+| Redexa Social | [1.9.4](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.9.4) | Valid signatures and timestamps on the application, updater and compatibility launcher inside the ZIP; the signed update manifest verifies against the installed public key. |
+| PC Tweaker Uninstaller | [0.8.3](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.8.3) | Valid signatures and timestamps on EXE and MSI installers, the EXE alias and extracted executable payloads. Both installer updater signatures verify. Historical 0.8.2 installers remain unsigned. |
 
 The verified signed files identify **Aurelio Avila** as publisher and use a
 certificate issued by **Certum Code Signing 2021 CA**. Timestamp certificates
@@ -56,6 +56,20 @@ the Authenticode result applies to those three contained executables.
 Redaxa's EXE and MSI updater `.sig` files also passed minisign verification
 against its current repository public key on 2026-09-08 (configuration blob
 `68a7368ba44d40af951f10552d656b178da392ba`). No signing session was used.
+
+### New signed maintenance releases (2026-09-08)
+
+| Downloaded asset | SHA-256 |
+| --- | --- |
+| `PC.Tweaker.Uninstaller_0.8.3_x64-setup.exe` and `PCTweakerUninstaller-Setup.exe` | `34eb17dab7b1acc87a2440ced7286726a45d4095f1db4b59305931b5776471d1` |
+| `PC.Tweaker.Uninstaller_0.8.3_x64_en-US.msi` | `60ca4ad8f8cde0587438f4c45c52bcc1c2820c366599cb3da8143831dd79d3be` |
+| `Redexa-Social-v1.9.4-win64.zip` | `9ea98c8117f7238e39a3855bd5ca538fa37ec52801dc8222e035881112d276cc` |
+
+These releases were signed locally using the owner's existing Certum certificate
+and DigiCert RFC 3161 timestamps, then downloaded and verified again after
+publication. Uninstaller's EXE and MSI updater signatures and Redexa Social's
+Ed25519 update manifest were independently verified. The Windows publisher
+remains **Aurelio Avila**. No historical release assets were replaced.
 
 ### Check your file
 
