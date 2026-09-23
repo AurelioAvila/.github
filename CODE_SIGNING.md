@@ -1,15 +1,15 @@
 # Windows code-signing status
 
-All rows were independently checked again on 2026-09-08 against release files
+Rows were independently checked on the dates noted below against release files
 downloaded from GitHub. The release API confirmed the listed versions as latest
-at the time of verification; downloaded asset hashes matched its SHA-256 digests.
+at the time of each verification; downloaded asset hashes matched its SHA-256 digests.
 Signing claims apply to the versions and artifacts listed here, not every
 historical release or development build.
 
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
 | PC Tweaker | [1.10.3](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.10.3) | Valid signatures and trusted timestamps on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
-| Redaxa | [0.3.3](https://github.com/AurelioAvila/redaxa/releases/tag/v0.3.3) | Valid signatures and timestamps on EXE and MSI installers. |
+| Redaxa | [0.4.1](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.1) | Valid publisher signatures and trusted timestamps on the sampled EXE and MSI installers (2026-09-23); the EXE updater signature matched the manifest. |
 | Redexa Social | [1.9.4](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.9.4) | Valid signatures and timestamps on the application, updater and compatibility launcher inside the ZIP; the signed update manifest verifies against the installed public key. |
 | PC Tweaker Uninstaller | [0.8.3](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.8.3) | Valid signatures and timestamps on EXE and MSI installers, the EXE alias and extracted executable payloads. Both installer updater signatures verify. Historical 0.8.2 installers remain unsigned. |
 
@@ -39,7 +39,21 @@ verification against the current PC Tweaker repository public key on 2026-09-08
 (configuration blob `4f92e5cee70a278dd781ca7ed2c9050317197ead`). This is a
 separate check from Windows publisher and timestamp verification.
 
-### Redaxa 0.3.3 and Redexa Social 1.9.3 evidence (2026-09-08)
+### Redaxa 0.4.1 evidence (2026-09-23)
+
+| Downloaded asset | SHA-256 |
+| --- | --- |
+| `Redaxa_0.4.1_x64-setup.exe` | `234d896db504deeaf2b3918f9d82918db3e1df43f01f91094f05d693fb6184f1` |
+| `Redaxa_0.4.1_x64_en-US.msi` | `f75daf5377590666141a001b77fd67586a3a5889fe0a0ca2299da7caee1aeab9` |
+
+Both sampled installers were downloaded from the v0.4.1 release and matched
+GitHub's asset digests. Windows Authenticode reported `Valid`, publisher
+**Aurelio Avila**, the Certum code-signing certificate above, and a trusted
+Certum timestamp. The detached Tauri updater signature verified against the
+source public key; `latest.json` contained the same signature and installer URL.
+This is evidence for these exact release files, not for later builds or mirrors.
+
+### Redaxa 0.3.3 and Redexa Social 1.9.3 historical evidence (2026-09-08)
 
 | Downloaded asset | SHA-256 |
 | --- | --- |
