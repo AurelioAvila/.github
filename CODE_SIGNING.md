@@ -1,16 +1,17 @@
 # Windows code-signing status
 
-Rows were independently checked on the dates noted below against release files
-downloaded from GitHub. The release API confirmed the listed versions as latest
-at the time of each verification; downloaded asset hashes matched its SHA-256 digests.
+Rows were checked on the dates noted below against the specific release packages.
+The release API confirmed the listed versions as latest at the time of each
+verification; package hashes matched its SHA-256 digests. Each evidence section
+describes the files and verification scope.
 Signing claims apply to the versions and artifacts listed here, not every
 historical release or development build.
 
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
 | PC Tweaker | [1.10.3](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.10.3) | Valid signatures and trusted timestamps on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
-| Redaxa | [0.4.1](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.1) | Valid publisher signatures and trusted timestamps on the sampled EXE and MSI installers (2026-09-23); the EXE updater signature matched the manifest. |
-| Redexa Social | [1.9.4](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.9.4) | Valid signatures and timestamps on the application, updater and compatibility launcher inside the ZIP; the signed update manifest verifies against the installed public key. |
+| Redaxa | [0.4.4](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.4) | Valid publisher signatures and trusted timestamps on both installers and their executable payloads (2026-09-26). Both Tauri updater signatures verified; the manifest covers NSIS, MSI and the legacy Windows target. |
+| Redexa Social | [1.10.5](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.10.5) | All 184 Windows PE files in the ZIP passed Authenticode and timestamp verification (2026-09-26). The Ed25519 update manifest verified against the application's existing public key. |
 | PC Tweaker Uninstaller | [0.8.3](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.8.3) | Valid signatures and timestamps on EXE and MSI installers, the EXE alias and extracted executable payloads. Both installer updater signatures verify. Historical 0.8.2 installers remain unsigned. |
 
 The verified signed files identify **Aurelio Avila** as publisher and use a
@@ -19,6 +20,34 @@ are present. A ZIP itself is not an Authenticode-signed executable; extract it
 and verify the files inside.
 
 ## Verify a download
+
+### Redaxa 0.4.4 and Redexa Social 1.10.5 evidence (2026-09-26)
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `Redaxa_0.4.4_x64-setup.exe` | `3696db5f07add74a2e6c01586aeb2d90bff3b86fb84e784708863a2946bc739c` |
+| `Redaxa_0.4.4_x64_en-US.msi` | `61129a22f0e579a54f07736ff68486396dcdc566611b753c953fd9af58b84a69` |
+| `Redexa-Social-v1.10.5-win64.zip` | `6a69a7e32fbf3a102f3d6f74241441e0d810cf765e53d48743fe83d04e490c0f` |
+
+Redaxa's final EXE and MSI installers and the executable payloads extracted from
+both installers passed Windows Authenticode and timestamp verification. Public
+installer downloads were checked again after release; their hashes matched the
+verified files and GitHub asset digests. Both detached Tauri signatures verified
+against the existing public key. `latest.json` points to version 0.4.4 and includes
+`windows-x86_64`, `windows-x86_64-nsis` and `windows-x86_64-msi` targets.
+
+Redexa Social's final ZIP contains 184 Windows PE files. All passed Authenticode
+and `signtool verify /pa /all /tw` verification, including the application,
+updater, compatibility launcher and bundled native libraries. The released ZIP
+hash matches the verified archive and GitHub asset digest. Its Ed25519 update
+manifest passed verification against the application's existing public key.
+
+Both releases identify **Aurelio Avila** as publisher, using certificate thumbprint
+`4F8341A74D16077AE1849DC8B8CAC99F22606754`, issued by **Certum Code Signing 2021 CA**,
+with trusted timestamps. A valid update manifest proves its signature and package
+binding; it does not by itself prove an end-to-end update on every older client.
+The ZIP is an archive, not an Authenticode-signed executable. Chrome Web Store
+extension signing is a separate distribution channel and is not covered here.
 
 ### PC Tweaker 1.10.3 evidence (2026-09-08)
 
