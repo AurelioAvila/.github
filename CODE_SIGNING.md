@@ -10,7 +10,7 @@ historical release or development build.
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
 | PC Tweaker | [1.10.3](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.10.3) | Valid signatures and trusted timestamps on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
-| Redaxa | [0.4.4](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.4) | Valid publisher signatures and trusted timestamps on both installers and their executable payloads (2026-09-26). Both Tauri updater signatures verified; the manifest covers NSIS, MSI and the legacy Windows target. |
+| Redaxa | [0.4.5](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.5) | Valid publisher signatures and trusted timestamps on both installers and their executable payloads (2026-09-26). Both Tauri updater signatures verified; the manifest covers NSIS, MSI and the legacy Windows target. |
 | Redexa Social | [1.10.5](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.10.5) | All 184 Windows PE files in the ZIP passed Authenticode and timestamp verification (2026-09-26). The Ed25519 update manifest verified against the application's existing public key. |
 | PC Tweaker Uninstaller | [0.8.3](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.8.3) | Valid signatures and timestamps on EXE and MSI installers, the EXE alias and extracted executable payloads. Both installer updater signatures verify. Historical 0.8.2 installers remain unsigned. |
 
@@ -21,19 +21,21 @@ and verify the files inside.
 
 ## Verify a download
 
-### Redaxa 0.4.4 and Redexa Social 1.10.5 evidence (2026-09-26)
+### Redaxa 0.4.5 and Redexa Social 1.10.5 evidence (2026-09-26)
 
 | Release asset | SHA-256 |
 | --- | --- |
-| `Redaxa_0.4.4_x64-setup.exe` | `3696db5f07add74a2e6c01586aeb2d90bff3b86fb84e784708863a2946bc739c` |
-| `Redaxa_0.4.4_x64_en-US.msi` | `61129a22f0e579a54f07736ff68486396dcdc566611b753c953fd9af58b84a69` |
+| `Redaxa_0.4.5_x64-setup.exe` | `002ab86f6159869aa7acd11e9725c66dc967a63df19339a456b83eb0cf4f0ae0` |
+| `Redaxa_0.4.5_x64_en-US.msi` | `af8e34b7e805a0c37a0a1f2982040e3204f04bd8428b68481b5875fe05d29e1d` |
 | `Redexa-Social-v1.10.5-win64.zip` | `6a69a7e32fbf3a102f3d6f74241441e0d810cf765e53d48743fe83d04e490c0f` |
 
 Redaxa's final EXE and MSI installers and the executable payloads extracted from
-both installers passed Windows Authenticode and timestamp verification. Public
+both installers passed Windows Authenticode and timestamp verification: 40 files,
+all with valid signatures and Certum timestamps. The release source is commit
+[`091a85b`](https://github.com/AurelioAvila/redaxa/commit/091a85b11ac112988d676863c7e2f34021696fd7). Public
 installer downloads were checked again after release; their hashes matched the
 verified files and GitHub asset digests. Both detached Tauri signatures verified
-against the existing public key. `latest.json` points to version 0.4.4 and includes
+against the existing public key. `latest.json` points to version 0.4.5 and includes
 `windows-x86_64`, `windows-x86_64-nsis` and `windows-x86_64-msi` targets.
 
 Redexa Social's final ZIP contains 184 Windows PE files. All passed Authenticode
