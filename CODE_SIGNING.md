@@ -7,12 +7,14 @@ describes the files and verification scope.
 Signing claims apply to the versions and artifacts listed here, not every
 historical release or development build.
 
-| Product | Verified release | Windows Authenticode status |
+| Product | Verified release | Windows Authenticode status (2026-10-05) |
 | --- | --- | --- |
-| PC Tweaker | [1.10.3](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.10.3) | Valid signatures and trusted timestamps on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
-| Redaxa | [0.4.5](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.5) | Valid publisher signatures and trusted timestamps on both installers and their executable payloads (2026-09-26). Both Tauri updater signatures verified; the manifest covers NSIS, MSI and the legacy Windows target. |
-| Redexa Social | [1.10.5](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.10.5) | All 184 Windows PE files in the ZIP passed Authenticode and timestamp verification (2026-09-26). The Ed25519 update manifest verified against the application's existing public key. |
-| PC Tweaker Uninstaller | [0.8.3](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.8.3) | Valid signatures and timestamps on EXE and MSI installers, the EXE alias and extracted executable payloads. Both installer updater signatures verify. Historical 0.8.2 installers remain unsigned. |
+| PC Tweaker | [1.15.9](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.15.9) | Valid publisher signatures and timestamp certificates on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
+| Redaxa | [0.4.7](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.7) | Downloaded EXE and MSI installers match official SHA-256 digests. SignTool verified Aurelio Avila and trusted RFC 3161 timestamps. |
+| Redexa Social | [1.10.9](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.10.9) | ZIP matches the official SHA-256 digest. The three checked application, compatibility-launcher and updater executables have valid Aurelio Avila signatures and timestamp certificates. This check did not cover every bundled PE file. |
+| PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
+| Tweaky Driver | [0.1.11](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.11) | Downloaded NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
+| Frame Witness | [0.33.0](https://github.com/AurelioAvila/frame-witness/releases/tag/v0.33.0) | Final installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted Certum timestamp, with zero warnings or errors. |
 
 The verified signed files identify **Aurelio Avila** as publisher and use a
 certificate issued by **Certum Code Signing 2021 CA**. Timestamp certificates
@@ -20,6 +22,34 @@ are present. A ZIP itself is not an Authenticode-signed executable; extract it
 and verify the files inside.
 
 ## Verify a download
+
+### Current release evidence (2026-10-05)
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `pc-tweaker-app_1.15.9_x64-setup.exe` / `PCTweaker-Setup.exe` | `5c8eefe004d278922a6e9da772ff7cd7513add61098c7d0a089969102b4023a3` |
+| `pc-tweaker-app_1.15.9_x64_en-US.msi` / `PCTweaker-Setup.msi` | `356650bce853bbd31e54507bf5234cfe785b16486ebc87009966dc5f07c3bf6d` |
+| `Redaxa_0.4.7_x64-setup.exe` | `56b3a4c70d0156fb2d56aaf461083d8cc3723a0c26ff8c9e692a3d1c202e6177` |
+| `Redaxa_0.4.7_x64_en-US.msi` | `f38b10e90c02c84e4fc9c17babb8d19626a106d736bfbb71ec85779be9093401` |
+| `Redexa-Social-v1.10.9-win64.zip` | `64e246c6b90e7919b6f1f2fecea39a688d7a5a691916668b84af895149397ce2` |
+| `PC.Tweaker.Uninstaller_0.12.2_x64-setup.exe` | `aef8cc74cea77d886f22cd160c96641248d8cc489c88e7ab1361b81544ad89e0` |
+| `Tweaky-Driver-0.1.11-x64-setup.exe` | `badb3ae437c7dcf55998ef6320999905d00220aac088519371164a4c92990592` |
+| `FrameWitness-Setup-0.33.0.exe` | `b5001c50182265ab06425b986c913095bcb1c783a84960097d46be71ef59d27c` |
+
+PC Tweaker's four final downloads and Redexa Social's ZIP plus the application,
+compatibility launcher and updater executables passed the release checksum and
+Windows publisher-signature checks. Update metadata pointed to the listed versions;
+metadata consistency is not cryptographic verification of an updater signature.
+
+Redaxa's two downloaded installers, Uninstaller's final NSIS installer, Tweaky's
+downloaded NSIS installer and Frame Witness's final installer also passed
+`signtool verify /pa /all /tw`. These checks verified publisher identity and trusted
+timestamps; the files were not executed or installed during this inspection.
+
+This inspection did not repeat complete payload extraction audits, clean Windows
+installation tests, cryptographic updater-signature checks or upgrades from older
+clients. Historical evidence below retains its original date and scope and must
+not be treated as verification of later releases.
 
 ### Redaxa 0.4.5 and Redexa Social 1.10.5 evidence (2026-09-26)
 
