@@ -7,14 +7,14 @@ describes the files and verification scope.
 Signing claims apply to the versions and artifacts listed here, not every
 historical release or development build.
 
-| Product | Verified release | Windows Authenticode status (2026-10-05) |
+| Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
-| PC Tweaker | [1.15.9](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.15.9) | Valid publisher signatures and timestamp certificates on EXE and MSI installers, including both stable download aliases. SHA-256 values match GitHub API asset digests. |
-| Redaxa | [0.4.7](https://github.com/AurelioAvila/redaxa/releases/tag/v0.4.7) | Downloaded EXE and MSI installers match official SHA-256 digests. SignTool verified Aurelio Avila and trusted RFC 3161 timestamps. |
-| Redexa Social | [1.10.9](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.10.9) | ZIP matches the official SHA-256 digest. The three checked application, compatibility-launcher and updater executables have valid Aurelio Avila signatures and timestamp certificates. This check did not cover every bundled PE file. |
-| PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
-| Tweaky Driver | [0.1.11](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.11) | Downloaded NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
-| Frame Witness | [0.33.0](https://github.com/AurelioAvila/frame-witness/releases/tag/v0.33.0) | Final installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted Certum timestamp, with zero warnings or errors. |
+| PC Tweaker | [1.18.5](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.5) | 2026-10-20: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. Authenticode digest, signer thumbprint and DigiCert timestamp checked; see scope below. |
+| Redaxa | [0.6.0](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.0) | 2026-10-20: EXE and MSI installers match GitHub API digests. Authenticode digest, signer thumbprint and Certum timestamp checked; see scope below. |
+| Redexa Social | [1.11.1](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.11.1) | 2026-10-20: Setup EXE and win64 ZIP match GitHub API digests. The Setup EXE and all 44 PE files in the ZIP carry Aurelio Avila signatures with Certum timestamps; see scope below. |
+| PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | 2026-10-05: Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
+| Tweaky Driver | [0.1.11](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.11) | 2026-10-05: Downloaded NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
+| Frame Witness | [0.33.0](https://github.com/AurelioAvila/frame-witness/releases/tag/v0.33.0) | 2026-10-05: Final installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted Certum timestamp, with zero warnings or errors. |
 
 The verified signed files identify **Aurelio Avila** as publisher and use a
 certificate issued by **Certum Code Signing 2021 CA**. Timestamp certificates
@@ -23,7 +23,38 @@ and verify the files inside.
 
 ## Verify a download
 
-### Current release evidence (2026-10-05)
+### Current release evidence (2026-10-20)
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `pc-tweaker-app_1.18.5_x64-setup.exe` / `PCTweaker-Setup.exe` | `4a61898313e0d717b149572506e41da062307c85d9dcea0b1e08ea86076afed3` |
+| `pc-tweaker-app_1.18.5_x64_en-US.msi` / `PCTweaker-Setup.msi` | `53cf456d0d1d0caab34c5503cbce57bcfecf9aa62787bccdc232527850f1df2b` |
+| `Redaxa_0.6.0_x64-setup.exe` / `Redaxa-Setup.exe` | `c4f3b84834ae4f945c219e1c89ac6083d39c0dc93762d4290ef284c535816acc` |
+| `Redaxa_0.6.0_x64_en-US.msi` | `4c15120d71c82ff4a8032eac34e85c0c8d42bb099531a4f91c074f97b338b15b` |
+| `Redexa-Social-Setup.exe` | `d84f050a6c2c65382ad82c9bf9830d6e064d3cfb7cdf0ec6e995b326cf76824f` |
+| `Redexa-Social-v1.11.1-win64.zip` | `6d9e9eed19248f3d57fb64b898af659853f1fa26cbe1fbb3347bf6c7bebd8a6b` |
+
+Each file was downloaded from its latest release and matched the SHA-256 digest
+the GitHub release API reports. Signatures were checked with `osslsigncode` 2.8
+on Linux, not with SignTool:
+
+- The Authenticode message digest recalculated from each file matches the signed
+  digest.
+- The signer is **Aurelio Avila**, certificate thumbprint
+  `4F8341A74D16077AE1849DC8B8CAC99F22606754`, chaining through **Certum Code
+  Signing 2021 CA** to Certum Trusted Network CA 2.
+- RFC 3161 timestamps chain to DigiCert Trusted Root G4 (PC Tweaker, responder
+  "DigiCert SHA256 RSA4096 Timestamp Responder 2026 1") and to Certum Trusted
+  Network CA 2 (Redaxa and Redexa Social, "Certum Timestamp 2026").
+- Redexa Social's ZIP contains 44 PE files (EXE, DLL and PYD); every one passed
+  the same digest, signer and timestamp checks.
+
+Certificate revocation (CRL) was not checked: the CRL servers were unreachable
+from the verification environment. Tauri and Ed25519 updater signatures were
+not verified in this pass, and the files were not executed or installed. Run
+`signtool verify /pa /all /tw` on Windows for a full check including revocation.
+
+### Earlier release evidence (2026-10-05)
 
 | Release asset | SHA-256 |
 | --- | --- |
