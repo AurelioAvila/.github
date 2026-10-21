@@ -9,11 +9,11 @@ historical release or development build.
 
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
-| PC Tweaker | [1.18.7](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.7) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings; signer certificate revocation (Certum CRL and OCSP) checked; see scope below. |
-| Redaxa | [0.6.2](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.2) | 2026-10-21: EXE and MSI installers and the `Redaxa.exe` inside the MSI passed `signtool verify /pa /all /tw` on Windows, revocation included, with zero warnings or errors; Tauri updater signatures verified. See the Redaxa 0.6.2 evidence below. |
-| Redexa Social | [1.11.1](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.11.1) | 2026-10-20: Setup EXE and win64 ZIP match GitHub API digests. The Setup EXE and all 44 PE files in the ZIP carry Aurelio Avila signatures with Certum timestamps; see scope below. |
-| PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | 2026-10-05: Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
-| Tweaky Driver | [0.1.11](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.11) | 2026-10-05: Downloaded NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
+| PC Tweaker | [1.18.8](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.8) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings or errors; see the 2026-10-21 evening evidence below. |
+| Redaxa | [0.6.3](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.3) | 2026-10-21: EXE and MSI installers, the `Redaxa-Setup.exe` alias and the `Redaxa.exe` inside the MSI passed `signtool verify /pa /all /tw` on Windows with zero warnings or errors; Tauri updater signatures verified. |
+| Redexa Social | [1.11.3](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.11.3) | 2026-10-21: Setup EXE and win64 ZIP match GitHub API digests. `signtool verify /pa /all /tw` passed on the Setup EXE with zero warnings or errors; every PE file in the ZIPs was signed and verified at build time (Certum timestamps). |
+| PC Tweaker Uninstaller | [0.13.4](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.13.4) | 2026-10-21: EXE and MSI installers and the stable alias match GitHub API digests. `signtool verify /pa /all /tw` passed with zero warnings or errors; the application inside the MSI is signed and timestamped; Tauri updater signatures verified. |
+| Tweaky Driver | [0.1.23](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.23) | 2026-10-21: NSIS installer and the stable alias match GitHub API digests. `signtool verify /pa /all /tw` passed with zero warnings or errors; payload and uninstaller signatures checked by the release build; updater signature verified with minisign. |
 | Frame Witness | [0.33.0](https://github.com/AurelioAvila/frame-witness/releases/tag/v0.33.0) | 2026-10-05: Final installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted Certum timestamp, with zero warnings or errors. |
 
 The verified signed files identify **Aurelio Avila** as publisher and use a
@@ -22,6 +22,29 @@ are present. A ZIP itself is not an Authenticode-signed executable; extract it
 and verify the files inside.
 
 ## Verify a download
+
+### Releases of 2026-10-21 evening
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `pc-tweaker-app_1.18.8_x64-setup.exe` / `PCTweaker-Setup.exe` | `8a92a80ed77f6d56e31e630e1694d85a9497d4ca95ce8b775826a872288a5a13` |
+| `pc-tweaker-app_1.18.8_x64_en-US.msi` / `PCTweaker-Setup.msi` | `28890cbd42939fd7c3da9fb71149d9ef552829ea45b4ef45318b77f92a30abbc` |
+| `PC.Tweaker.Uninstaller_0.13.4_x64-setup.exe` / `PCTweakerUninstaller-Setup.exe` | `0944fb54ee58c1f7df4e09d5934962cb40ada3edb7e520683c4e8bad712dfcf3` |
+| `PC.Tweaker.Uninstaller_0.13.4_x64_en-US.msi` | `4a5182255e37de99c3eb79841d57941428ff774fa332d2625d34b15b4e83e428` |
+| `Tweaky-Driver-0.1.23-x64-setup.exe` / `TweakyDriver-Setup.exe` | `f47b31f8c7e98f44f5a481c8dc2ba8fcfdc4e8fd8a65a636f4cf314f1efe6d08` |
+| `Redaxa_0.6.3_x64-setup.exe` / `Redaxa-Setup.exe` | `4d66556ce67ea9c4484c647763f8f48e54b75463568c3351f986300d0647e5fc` |
+| `Redaxa_0.6.3_x64_en-US.msi` | `a3e31788c22ca18de8dd2419e37f65d633faa2ac81f3db0807469b82939398df` |
+| `Redexa-Social-Setup.exe` (1.11.3) | `a2b5d01994446fbfbaf7d4bbd462819429b1e5a2354a45f6730db74b0b3854b9` |
+| `Redexa-Social-v1.11.3-win64.zip` | `d3013156420e11b48e9c7b563651fb5c7c40c27215129c10a8f1e344d9ba5570` |
+
+Each file was downloaded again from its published GitHub release (the release API
+listed each tag as latest) and matched the API digest. `signtool verify /pa /all /tw /v`
+on Windows 11 verified each installer with zero warnings and zero errors, signer
+**Aurelio Avila** (`4F8341A74D16077AE1849DC8B8CAC99F22606754`) with a trusted timestamp.
+Before publication the release gates verified the application binaries inside the
+packages and the Tauri updater signatures (Redexa Social: signed update manifests
+from the protected key). Each release was also installed over the previous version on
+a Windows 11 PC.
 
 ### PC Tweaker 1.18.7 evidence (2026-10-21)
 
