@@ -10,7 +10,7 @@ historical release or development build.
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
 | PC Tweaker | [1.18.7](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.7) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings; signer certificate revocation (Certum CRL and OCSP) checked; see scope below. |
-| Redaxa | [0.6.0](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.0) | 2026-10-20: EXE and MSI installers match GitHub API digests. Authenticode digest, signer thumbprint and Certum timestamp checked; see scope below. |
+| Redaxa | [0.6.2](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.2) | 2026-10-21: EXE and MSI installers and the `Redaxa.exe` inside the MSI passed `signtool verify /pa /all /tw` on Windows, revocation included, with zero warnings or errors; Tauri updater signatures verified. See the Redaxa 0.6.2 evidence below. |
 | Redexa Social | [1.11.1](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.11.1) | 2026-10-20: Setup EXE and win64 ZIP match GitHub API digests. The Setup EXE and all 44 PE files in the ZIP carry Aurelio Avila signatures with Certum timestamps; see scope below. |
 | PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | 2026-10-05: Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
 | Tweaky Driver | [0.1.11](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.11) | 2026-10-05: Downloaded NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
@@ -81,6 +81,40 @@ The MSI gave the same result (one signature, zero warnings, zero errors).
   (Authenticode, publisher, timestamp and Tauri updater signatures on the
   application and both installers), and the CI installer job installed both
   formats, upgraded from 1.15.2, started the app and uninstalled it.
+
+### Redaxa 0.6.2 evidence (2026-10-21)
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `Redaxa_0.6.2_x64-setup.exe` / `Redaxa-Setup.exe` | `5737c63436a61fb5565d3675ca634c4bca7d1d0fcf729a900968bb4ae4e3e7b1` |
+| `Redaxa_0.6.2_x64_en-US.msi` | `d98baa15d027fbad1240e194689f481effba8f106953cd261af5920c8a0c4644` |
+| `Redaxa.exe` inside the MSI | `a1a28cc3feb262b6519431e03e3a9e112e2e0cfa78fc74cb52a997d3aef6f640` |
+
+Checked on Windows 11 with SignTool from the Windows SDK 10.0.26100, using
+`signtool verify /pa /all /tw /v` on each file, before publication:
+
+- The chain runs Aurelio Avila → Certum Code Signing 2021 CA → Certum Trusted
+  Network CA 2 → Certum Trusted Network CA. The signer thumbprint is
+  `4F8341A74D16077AE1849DC8B8CAC99F22606754`, and the signature uses SHA-256.
+- Each file has an RFC 3161 timestamp from "Certum Timestamp 2026" (Certum
+  Timestamping 2021 CA), dated 21 October 2026.
+- Each file reported "Number of signatures successfully Verified: 1", 0
+  warnings and 0 errors. SignTool checks revocation online by default; for the
+  signer certificate, `certutil -urlfetch -verify` reached the Certum CRL
+  (`http://ccsca2021.crl.certum.pl/ccsca2021.crl`) and the OCSP responder
+  (`http://ccsca2021.ocsp-certum.com`) and passed the leaf revocation check.
+- The third-party executables in the MSI, `node.exe` (OpenJS Foundation) and
+  `git.exe` / `git-remote-https.exe` (Johannes Schindelin), keep their own
+  verified Microsoft-chained signatures.
+- The Tauri updater signatures (`.sig`) of both installers verify against the
+  public key shipped in the app.
+
+After publication, the SHA-256 digests that the GitHub release API reports for
+both installers, their `.sig` files and `latest.json` matched the checked files.
+The update feed (`releases/latest/download/latest.json`) serves 0.6.2.
+The same build updated a real per-user 0.5.4 installation to
+`C:\Program Files\Redaxa\Redaxa.exe`, with settings and sign-in kept. That update
+used the setup's updater arguments, not the in-app button.
 
 ### Current release evidence (2026-10-20)
 
