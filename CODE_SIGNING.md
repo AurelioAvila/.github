@@ -9,7 +9,7 @@ historical release or development build.
 
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
-| PC Tweaker | [1.18.6](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.6) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings; signer certificate revocation (Certum CRL and OCSP) checked; see scope below. |
+| PC Tweaker | [1.18.7](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.7) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings; signer certificate revocation (Certum CRL and OCSP) checked; see scope below. |
 | Redaxa | [0.6.0](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.0) | 2026-10-20: EXE and MSI installers match GitHub API digests. Authenticode digest, signer thumbprint and Certum timestamp checked; see scope below. |
 | Redexa Social | [1.11.1](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.11.1) | 2026-10-20: Setup EXE and win64 ZIP match GitHub API digests. The Setup EXE and all 44 PE files in the ZIP carry Aurelio Avila signatures with Certum timestamps; see scope below. |
 | PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | 2026-10-05: Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
@@ -22,6 +22,23 @@ are present. A ZIP itself is not an Authenticode-signed executable; extract it
 and verify the files inside.
 
 ## Verify a download
+
+### PC Tweaker 1.18.7 evidence (2026-10-21)
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `pc-tweaker-app_1.18.7_x64-setup.exe` / `PCTweaker-Setup.exe` | `cf59f368475ac519b3075d5086307b91d8abbc3ffe935e9a38a867e5e628adab` |
+| `pc-tweaker-app_1.18.7_x64_en-US.msi` / `PCTweaker-Setup.msi` | `3f81e84bcd28d469424b4997f020eace942440b58f7512b11196a7c8cd807394` |
+
+Downloaded from the published release and the stable aliases; every hash
+matches the GitHub release API digest. `signtool verify /pa /all /tw /v` on
+Windows 11 (SignTool 10.0.26100) verified one signature on each installer with
+zero warnings and zero errors: signer **Aurelio Avila**
+(`4F8341A74D16077AE1849DC8B8CAC99F22606754`) through Certum Code Signing 2021 CA
+to Certum Trusted Network CA 2, timestamp by DigiCert SHA256 RSA4096 Timestamp
+Responder 2026 1. `certutil -urlfetch -verify` on the signer certificate passed
+the leaf revocation check (Certum CRL and OCSP). The release build passed the
+same `make-latest-json.mjs` gate and CI installer job as 1.18.6.
 
 ### PC Tweaker 1.18.6 evidence (2026-10-21)
 
