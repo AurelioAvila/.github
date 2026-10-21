@@ -9,7 +9,7 @@ historical release or development build.
 
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
-| PC Tweaker | [1.18.5](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.5) | 2026-10-20: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. Authenticode digest, signer thumbprint and DigiCert timestamp checked; see scope below. |
+| PC Tweaker | [1.18.6](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.6) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings; signer certificate revocation (Certum CRL and OCSP) checked; see scope below. |
 | Redaxa | [0.6.0](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.0) | 2026-10-20: EXE and MSI installers match GitHub API digests. Authenticode digest, signer thumbprint and Certum timestamp checked; see scope below. |
 | Redexa Social | [1.11.1](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.11.1) | 2026-10-20: Setup EXE and win64 ZIP match GitHub API digests. The Setup EXE and all 44 PE files in the ZIP carry Aurelio Avila signatures with Certum timestamps; see scope below. |
 | PC Tweaker Uninstaller | [0.12.2](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.12.2) | 2026-10-05: Final NSIS installer matches the official SHA-256 digest. SignTool verified Aurelio Avila and a trusted DigiCert timestamp, with zero warnings or errors. |
@@ -22,6 +22,48 @@ are present. A ZIP itself is not an Authenticode-signed executable; extract it
 and verify the files inside.
 
 ## Verify a download
+
+### PC Tweaker 1.18.6 evidence (2026-10-21)
+
+| Release asset | SHA-256 |
+| --- | --- |
+| `pc-tweaker-app_1.18.6_x64-setup.exe` / `PCTweaker-Setup.exe` | `ce0ea348fb72c40fa8324c424ce7c773cdfc35b3a3f1334a12584ef95940383d` |
+| `pc-tweaker-app_1.18.6_x64_en-US.msi` / `PCTweaker-Setup.msi` | `0fdc3e0d01c45dfe314559f42b636c988db530314628774f0946c8b321974310` |
+
+Both installers and both stable aliases were downloaded from the published
+release; each hash matches the SHA-256 digest the GitHub release API reports.
+Checked on Windows 11 with SignTool 10.0.26100 (`signtool verify /pa /all /tw /v`):
+
+```
+Signing Certificate Chain:
+    Issued to: Certum Trusted Network CA 2
+        Issued to: Certum Code Signing 2021 CA
+            Issued to: Aurelio Avila
+            SHA1 hash: 4F8341A74D16077AE1849DC8B8CAC99F22606754
+Timestamp Verified by:
+    Issued to: DigiCert Assured ID Root CA
+        Issued to: DigiCert Trusted Root G4
+            Issued to: DigiCert Trusted G4 TimeStamping RSA4096 SHA256 2025 CA1
+                Issued to: DigiCert SHA256 RSA4096 Timestamp Responder 2026 1
+Successfully verified: pc-tweaker-app_1.18.6_x64-setup.exe
+Number of signatures successfully Verified: 1
+Number of warnings: 0
+Number of errors: 0
+```
+
+The MSI gave the same result (one signature, zero warnings, zero errors).
+
+- Revocation: SignTool's chain check passed, and `certutil -urlfetch -verify` on
+  the signer certificate fetched Certum's CRLs (`ccsca2021.crl.certum.pl`,
+  `crl.certum.pl/ctnca2.crl`) and OCSP responses (`ccsca2021.ocsp-certum.com`,
+  `subca.ocsp-certum.com`) and reported the leaf revocation check as passed.
+  For the timestamp certificate, DigiCert's intermediate CRLs and OCSP verified,
+  but certutil reported the responder certificate's own revocation status as
+  `CRYPT_E_REVOCATION_OFFLINE` at the time of the check.
+- Before publication the release build passed `scripts/make-latest-json.mjs`
+  (Authenticode, publisher, timestamp and Tauri updater signatures on the
+  application and both installers), and the CI installer job installed both
+  formats, upgraded from 1.15.2, started the app and uninstalled it.
 
 ### Current release evidence (2026-10-20)
 
