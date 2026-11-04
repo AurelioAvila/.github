@@ -7,6 +7,43 @@ describes the files and verification scope.
 Signing claims apply to the versions and artifacts listed here, not every
 historical release or development build.
 
+## Final EXE installers checked on 4 November 2026
+
+The six version-specific EXE installers below were downloaded from their official
+GitHub releases and matched the SHA-256 digests returned by the release API.
+`signtool verify /pa /all /tw /v` on Windows verified all six with zero warnings
+and zero errors. Each identifies **Aurelio Avila** as publisher and has a trusted
+timestamp. The code-signing certificate thumbprint is
+`4F8341A74D16077AE1849DC8B8CAC99F22606754`.
+
+| Product | Release | Timestamp authority |
+| --- | --- | --- |
+| PC Tweaker | [1.20.0](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.20.0) | DigiCert |
+| Tweaky Driver | [0.1.44](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/tag/v0.1.44) | DigiCert |
+| PC Tweaker Uninstaller | [0.14.0](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/tag/v0.14.0) | DigiCert |
+| Redexa Social | [1.12.0](https://github.com/AurelioAvila/redexa-social/releases/tag/v1.12.0) | Certum |
+| Redaxa | [0.6.19](https://github.com/AurelioAvila/redaxa/releases/tag/v0.6.19) | Certum |
+| Frame Witness | [1.1.0](https://github.com/AurelioAvila/frame-witness/releases/tag/v1.1.0) | Certum |
+
+These checks cover the exact **final EXE installers** linked below. The installers
+were not run or installed during this check. This does not reverify application
+payloads, MSI packages, ZIP contents, stable aliases or updater signatures; older
+evidence for those artifacts remains dated below. A valid publisher signature
+does not guarantee that SmartScreen will never display a reputation warning.
+
+| Final release asset | SHA-256 |
+| --- | --- |
+| [pc-tweaker-app_1.20.0_x64-setup.exe](https://github.com/AurelioAvila/pc-tweaker-app/releases/download/v1.20.0/pc-tweaker-app_1.20.0_x64-setup.exe) | `84edd3545ee92c50696f02416a676e71e584617f09930b79089755007ddb63dc` |
+| [Tweaky-Driver-0.1.44-x64-setup.exe](https://github.com/AurelioAvila/Tweaky-Driver-Releases/releases/download/v0.1.44/Tweaky-Driver-0.1.44-x64-setup.exe) | `770804b382486f5f0ea86b03c0e9725036dcc18bbf905836f2cd8ef3dda58c57` |
+| [PC.Tweaker.Uninstaller_0.14.0_x64-setup.exe](https://github.com/AurelioAvila/pc-tweaker-uninstaller/releases/download/v0.14.0/PC.Tweaker.Uninstaller_0.14.0_x64-setup.exe) | `65c8efbd661bec137141fc2cbe90432434b734fecbaf2d0b4dd14281a84c118f` |
+| [Redexa-Social-Setup.exe](https://github.com/AurelioAvila/redexa-social/releases/download/v1.12.0/Redexa-Social-Setup.exe) | `22699969b0cd971dcdcbaa5cc566ef6d5bb5b8da66228076f00a5bed76f598ed` |
+| [Redaxa_0.6.19_x64-setup.exe](https://github.com/AurelioAvila/redaxa/releases/download/v0.6.19/Redaxa_0.6.19_x64-setup.exe) | `3dab216692eeea475ca311e4809ffa3f8c75d70f55b93e0aa7c7e6b3c62cf66a` |
+| [FrameWitness-Setup-1.1.0.exe](https://github.com/AurelioAvila/frame-witness/releases/download/v1.1.0/FrameWitness-Setup-1.1.0.exe) | `9d605b615c7481037d3959e8b753209dc988f84dfdeccc74e0a464fb8549ad2b` |
+
+## Earlier verification inventory
+
+The rows below describe historical checks and are not a latest-version table.
+
 | Product | Verified release | Windows Authenticode status |
 | --- | --- | --- |
 | PC Tweaker | [1.18.8](https://github.com/AurelioAvila/pc-tweaker-app/releases/tag/v1.18.8) | 2026-10-21: EXE and MSI installers (and both stable download aliases, same bytes) match GitHub API digests. `signtool verify /pa /all /tw` passed on Windows with zero warnings or errors; see the 2026-10-21 evening evidence below. |
