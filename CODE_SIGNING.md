@@ -7,6 +7,31 @@ describes the files and verification scope.
 Signing claims apply to the versions and artifacts listed here, not every
 historical release or development build.
 
+## PC Tweaker 1.20.3 checked on 6 November 2026
+
+The final [1.20.3 EXE installer](https://github.com/AurelioAvila/pc-tweaker-app/releases/download/v1.20.3/pc-tweaker-app_1.20.3_x64-setup.exe)
+matched the official release API digest:
+
+```text
+SHA-256: 059b8c6990d5cedb9f8b073f6f573a39d77e9fbc6bcc2b9c62d5ef81fa0d44ef
+```
+
+Windows reported a **Valid Authenticode signature**, publisher **Aurelio Avila**,
+certificate thumbprint `4F8341A74D16077AE1849DC8B8CAC99F22606754`, and a DigiCert
+timestamp certificate on this exact installer.
+
+A separate [Windows Server 2025 x64 package check](https://github.com/AurelioAvila/pc-tweaker-app/actions/runs/42302485126)
+also verified signatures and timestamps on the installed application and
+uninstaller. It passed installation in a path containing spaces, rejection of an
+existing installation before replacement, rejection of a mismatched uninstall
+directory, and removal of the package while preserving a synthetic AppData marker.
+
+This check did **not** start the application, scan hardware, use real license or
+customer data, or exercise the Npackd GUI or CLI. It does not establish full
+Windows 10/11 client compatibility, performance gains, or verification of MSI
+packages, download aliases or updater signatures. A valid publisher signature
+does not guarantee that SmartScreen will never display a reputation warning.
+
 ## Final EXE installers checked on 4 November 2026
 
 The six version-specific EXE installers below were downloaded from their official
